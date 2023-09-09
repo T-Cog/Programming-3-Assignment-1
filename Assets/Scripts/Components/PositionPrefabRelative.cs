@@ -14,7 +14,10 @@ public class PositionPrefabRelative : MonoBehaviour
     /// <returns>The newly spawned object in the right position.</returns>
     public GameObject PositionPrefabAtRelativePosition()
     {
-        return null;
+        GameObject newPrefab = Instantiate(Prefab);
+        newPrefab.transform.position = (transform.position + SpawnOffset);
+
+        return newPrefab;
     }
     
 }

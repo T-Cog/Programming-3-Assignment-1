@@ -11,7 +11,11 @@ public class VectorToEnemy : MonoBehaviour
     /// <returns>The vector from the player to the enemy.</returns>
     public Vector3 GetVectorToEnemy()
     {
-        return Vector3.zero;
+       
+        Vector3 enemyVector = GameController.GetEnemyObject().transform.position;
+        Vector3 resultVector = enemyVector - transform.position;
+
+        return resultVector;
     }
 
     /// <summary>
