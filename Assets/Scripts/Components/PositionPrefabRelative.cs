@@ -14,8 +14,8 @@ public class PositionPrefabRelative : MonoBehaviour
     /// <returns>The newly spawned object in the right position.</returns>
     public GameObject PositionPrefabAtRelativePosition()
     {
-        GameObject newPrefab = Instantiate(Prefab);
-        newPrefab.transform.position = (transform.position + SpawnOffset);
+        GameObject newPrefab = Instantiate(Prefab); //Instantiates a Prefab object stored as newPrefab
+        newPrefab.transform.position = (transform.position + SpawnOffset); //Adds the SpawnOffset to the transform of the object this script is attatched to and uses that value for the newPrefab transform
 
         return newPrefab;
     }
