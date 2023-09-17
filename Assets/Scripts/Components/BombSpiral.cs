@@ -9,6 +9,8 @@ public class BombSpiral : MonoBehaviour
     public int BombCount = 10;
     public float StartRadius = 1;
     public float EndRadius = 3;
+    Vector3 shipPosition;
+
 
     /// <summary>
     /// Spawns spirals of BombPrefab game objects around the player. Create BombCount number of bombs 
@@ -18,7 +20,16 @@ public class BombSpiral : MonoBehaviour
     /// <returns>An array of the spawned bombs</returns>
     public GameObject[] SpawnBombSpiral()
     {
-        return null;
+        shipPosition = transform.position;
+
+        GameObject[] bombs = new GameObject[BombCount];
+
+        for (int i = 0; i < bombs.Length; i++)
+        {
+            bombs[i] = Instantiate(BombPrefab);
+        }
+
+        return bombs;
     }
 
 }
