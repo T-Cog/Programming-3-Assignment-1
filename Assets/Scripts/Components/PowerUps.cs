@@ -26,10 +26,12 @@ public class PowerUps : MonoBehaviour
         {
             powerUpOrbit[i] = Instantiate(PowerUpPrefab); //Fills each index in the array with a new PowerUpPrefab
 
-            //Sets the powerUpSpawnPoint using the point on a circle formula
+            //Sets the X and Y powerUpSpawnPoint using the point on a circle formula
             //Multiplying the placementAngle by i acts as a modifier to consistently change the placement of powerups around the player
-            powerUpSpawnPoint = new Vector3(shipPosition.x + Mathf.Cos(placementAngle * i * Mathf.Deg2Rad) * PowerUpRadius,
-                shipPosition.y + Mathf.Sin(placementAngle * i * Mathf.Deg2Rad) * PowerUpRadius, 0); 
+            float currentAngle = placementAngle * i * Mathf.Deg2Rad;
+            float powerUpX = shipPosition.x + Mathf.Cos(currentAngle) * PowerUpRadius;
+            float powerUpY = shipPosition.y + Mathf.Sin(currentAngle) * PowerUpRadius;
+            powerUpSpawnPoint = new Vector3(powerUpX, powerUpY, 0); 
 
             powerUpOrbit[i].transform.position = powerUpSpawnPoint; //Sets the position of each index in the powerUpOrbit array equal to the current powerUpSpawnPoint
 

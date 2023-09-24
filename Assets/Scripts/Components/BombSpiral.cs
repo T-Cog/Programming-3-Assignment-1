@@ -34,13 +34,18 @@ public class BombSpiral : MonoBehaviour
             //using i as a modifier to divide by BombCount to give consistent increasing space between each bomb when setting bombSpiralPosition
             currentRadius = Mathf.Lerp(StartRadius, EndRadius, (float)i / BombCount);
 
+            Debug.Log("Radius [" + i + "]:" + currentRadius);
+
             //Sets the bombSpiralPosition using the point on a circle formula
-            bombSpiralPosition = new Vector3(shipPosition.x + Mathf.Cos(placementAngle * Mathf.Deg2Rad) * currentRadius,
-                shipPosition.y + Mathf.Sin(placementAngle * Mathf.Deg2Rad) * currentRadius, 0); 
+            float bombPosX = shipPosition.x + Mathf.Cos(placementAngle * Mathf.Deg2Rad) * currentRadius;
+            float bombPosY = shipPosition.y + Mathf.Sin(placementAngle * Mathf.Deg2Rad) * currentRadius;
+            bombSpiralPosition = new Vector3( bombPosX, bombPosY, 0); 
 
             bombs[i] = Instantiate(BombPrefab, bombSpiralPosition, Quaternion.identity); //Fills each index in the array with BombPrefab and spawns it at bombSpiralPosition with no rotation 
 
             placementAngle += SpiralAngleInDegrees; //Adds SpiralAngleInDegrees to the placement angle so the bombs are placed in a spiral and not a line
+
+
         }
 
         return bombs; //Returns bombs array
