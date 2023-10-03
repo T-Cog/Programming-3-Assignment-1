@@ -18,7 +18,19 @@ public class ShipMotor : MonoBehaviour
 
         Vector3 verticalVelocity = new Vector3(0, currentSpeed * Time.deltaTime, 0);
         Vector3 horizontalVelocity = new Vector3(currentSpeed * Time.deltaTime, 0, 0);
+/*
+        float verticalVelMag = Mathf.Sqrt(verticalVelocity.x * verticalVelocity.x + (verticalVelocity.y * verticalVelocity.y));
+        float horizontalVelMag = Mathf.Sqrt(horizontalVelocity.x * horizontalVelocity.x + (horizontalVelocity.y * horizontalVelocity.y));
 
+        float verticalMag = Mathf.Sqrt(transform.up.x * transform.up.x + (transform.up.y * transform.up.y));
+        float horizontalMag = Mathf.Sqrt(transform.right.x * transform.right.x + (transform.right.y * transform.right.y));
+
+        Vector3 verticalDir = verticalVelocity - transform.up;
+        Vector3 horizontalDir = horizontalVelocity - transform.right; 
+
+        Vector3 normalizedVertical = verticalDir / verticalMag;
+        Vector3 normalizedHorizontal = horizontalDir / horizontalMag;
+*/
 
         if (input.y > 0.1)
         {
@@ -27,6 +39,7 @@ public class ShipMotor : MonoBehaviour
             currentSpeed += AccelerationTime * Time.deltaTime;
             currentSpeed = Mathf.Clamp(currentSpeed, 0, MaxSpeed);
 
+           // transform.position += -normalizedVertical * currentSpeed * Time.deltaTime;
             transform.Translate(verticalVelocity);
             Debug.Log("Goin UP");
         }
@@ -36,6 +49,7 @@ public class ShipMotor : MonoBehaviour
             currentSpeed += AccelerationTime * Time.deltaTime;
             currentSpeed = Mathf.Clamp(currentSpeed, 0, MaxSpeed);
 
+           // transform.position += normalizedVertical * currentSpeed * Time.deltaTime;
             transform.Translate(-verticalVelocity);
             Debug.Log("Goin DOWN");
         }
