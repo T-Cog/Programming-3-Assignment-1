@@ -7,8 +7,7 @@ public class ShipMotor : MonoBehaviour
     public float AccelerationTime = 1;
     public float DecelerationTime = 1;
     public float MaxSpeed = 5;
-    private float currentSpeed;
-    bool moving = false;
+
 
     Vector2 velocity = Vector2.zero;
 
@@ -18,7 +17,10 @@ public class ShipMotor : MonoBehaviour
     /// <param name="input">The input from the player. The possible range of values for x and y are from -1 to 1.</param>
     public void HandleMovementInput( Vector2 input )
     {
-        Vector2 acceleration = input * (MaxSpeed / AccelerationTime);
+        Camera cam = GameController.GetCamera();
+        Vector2 relativeCamInput = cam.transform.TransformPoint(input);
+        
+        Vector2 acceleration = relativeCamInput * (MaxSpeed / AccelerationTime);
 
         if (input == Vector2.zero)
         {
@@ -48,11 +50,5 @@ public class ShipMotor : MonoBehaviour
 
         return Mathf.Sqrt(v.x * v.x + v.y * v.y);
     }
-
-    private void Update()
-    {
-        Debug.Log(moving);
-    }
-
 }
 
