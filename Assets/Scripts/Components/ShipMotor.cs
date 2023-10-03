@@ -15,6 +15,7 @@ public class ShipMotor : MonoBehaviour
     /// <param name="input">The input from the player. The possible range of values for x and y are from -1 to 1.</param>
     public void HandleMovementInput( Vector2 input )
     {
+        float acceleration = MaxSpeed / AccelerationTime;
 
         Vector3 verticalVelocity = new Vector3(0, currentSpeed * Time.deltaTime, 0);
         Vector3 horizontalVelocity = new Vector3(currentSpeed * Time.deltaTime, 0, 0);
@@ -69,8 +70,7 @@ public class ShipMotor : MonoBehaviour
         {
             moving = false;
 
-            currentSpeed = 0;
-            transform.Translate(Vector3.zero);
+            currentSpeed -= DecelerationTime * Time.deltaTime;
             Debug.Log("Stop");
         }
     }
