@@ -9,70 +9,44 @@ public class ShipMotor : MonoBehaviour
     public float MaxSpeed = 5;
     private float currentSpeed;
     bool moving = false;
+
+    Vector2 velocity = Vector2.zero;
+
     /// <summary>
     /// Move the ship using it's transform only based on the current input vector.
     /// </summary>
     /// <param name="input">The input from the player. The possible range of values for x and y are from -1 to 1.</param>
     public void HandleMovementInput( Vector2 input )
     {
-        float acceleration = MaxSpeed / AccelerationTime;
+        Vector2 acceleration = input * (MaxSpeed / AccelerationTime);
 
-        Vector3 verticalVelocity = new Vector3(0, currentSpeed * Time.deltaTime, 0);
-        Vector3 horizontalVelocity = new Vector3(currentSpeed * Time.deltaTime, 0, 0);
-/*
-        float verticalVelMag = Mathf.Sqrt(verticalVelocity.x * verticalVelocity.x + (verticalVelocity.y * verticalVelocity.y));
-        float horizontalVelMag = Mathf.Sqrt(horizontalVelocity.x * horizontalVelocity.x + (horizontalVelocity.y * horizontalVelocity.y));
-
-        float verticalMag = Mathf.Sqrt(transform.up.x * transform.up.x + (transform.up.y * transform.up.y));
-        float horizontalMag = Mathf.Sqrt(transform.right.x * transform.right.x + (transform.right.y * transform.right.y));
-
-        Vector3 verticalDir = verticalVelocity - transform.up;
-        Vector3 horizontalDir = horizontalVelocity - transform.right; 
-
-        Vector3 normalizedVertical = verticalDir / verticalMag;
-        Vector3 normalizedHorizontal = horizontalDir / horizontalMag;
-*/
-
-        if (input.y > 0.1)
+        if (input == Vector2.zero)
         {
-            moving = true;
+            Vector2 normalizedVel = Normalize(velocity);
+            acceleration = -normalizedVel * (MaxSpeed / DecelerationTime);
+        }
+        velocity += acceleration * Time.deltaTime;
+        velocity = Vector2.ClampMagnitude(velocity, MaxSpeed);
+        transform.position += (Vector3)velocity * Time.deltaTime;
+    }
 
-            currentSpeed += AccelerationTime * Time.deltaTime;
-            currentSpeed = Mathf.Clamp(currentSpeed, 0, MaxSpeed);
 
-           // transform.position += -normalizedVertical * currentSpeed * Time.deltaTime;
-            transform.Translate(verticalVelocity);
-            Debug.Log("Goin UP");
-        }
-        else if (input.y < -0.1)
-        {
-            moving = true;
-            currentSpeed += AccelerationTime * Time.deltaTime;
-            currentSpeed = Mathf.Clamp(currentSpeed, 0, MaxSpeed);
+    private Vector2 Normalize(Vector2 v)
+    {
+        float magnitude = Magnitude(v);
 
-           // transform.position += normalizedVertical * currentSpeed * Time.deltaTime;
-            transform.Translate(-verticalVelocity);
-            Debug.Log("Goin DOWN");
-        }
-        else if (input.x > 0.1)
+        if (magnitude != 0)
         {
-            moving = true;
-            transform.Translate(horizontalVelocity);
-            Debug.Log("Goin RIGHT");
+            return v/magnitude;
         }
-        else if (input.x < -0.1)
-        {
-            moving = true;
-            transform.Translate(-horizontalVelocity);
-            Debug.Log("Goin LEFT");
-        }
-        else
-        {
-            moving = false;
 
-            currentSpeed -= DecelerationTime * Time.deltaTime;
-            Debug.Log("Stop");
-        }
+        return v;
+    }
+
+    private float Magnitude(Vector2 v)
+    {
+
+        return Mathf.Sqrt(v.x * v.x + v.y * v.y);
     }
 
     private void Update()
